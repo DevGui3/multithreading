@@ -24,7 +24,7 @@ def extract_movie_details(movie_link):
         
         if page_section is not None:
             # Encontrando todas as divs dentro da seção
-            divs = page_section.find_all('div', recursive=False)
+            divs = page_section.find_all('section', recursive=False)
             
             if len(divs) > 1:
                 target_div = divs[1]
@@ -40,7 +40,7 @@ def extract_movie_details(movie_link):
                     date = date_tag.get_text().strip()
                 
                 # Encontrando a classificação do filme
-                rating_tag = movie_soup.find('div', attrs={'data-testid': 'hero-rating-bar__aggregate-rating__score'})
+                rating_tag = movie_soup.find('section', attrs={'data-testid': 'hero-rating-bar__aggregate-rating__score'})
                 rating = rating_tag.get_text() if rating_tag else None
                 
                 # Encontrando a sinopse do filme
@@ -54,7 +54,7 @@ def extract_movie_details(movie_link):
                         movie_writer.writerow([title, date, rating, plot_text])
 
 def extract_movies(soup):
-    movies_table = soup.find('div', attrs={'data-testid': 'chart-layout-main-column'}).find('ul')
+    movies_table = soup.find('section', attrs={'data-testid': 'chart-layout-main-column'}).find('ul')
     movies_table_rows = movies_table.find_all('li')
     movie_links = ['https://imdb.com' + movie.find('a')['href'] for movie in movies_table_rows]
 
